@@ -1,0 +1,64 @@
+html, body {
+  height: 100%;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background-color: #A8444D;
+  font-family: 'Droid Sans', sans-serif;
+}
+
+.container {
+  margin: 0;
+  padding: 30px;
+  width: 100%;
+  height: 100%;
+  text-align: center;
+  box-sizing: border-box;
+}
+
+.card {
+  display: inline-block;
+  background-color: #fdfdfd;
+  width: 390px;
+  height: 230px;
+  transition: all 0.4s ease;
+  overflow: hidden;
+  margin: 20px;
+  text-align: left;
+  box-sizing: border-box;
+  -webkit-box-shadow: 0px 2px 34px -4px rgba(99,99,99,1);
+  -moz-box-shadow: 0px 2px 34px -4px rgba(99,99,99,1);
+  box-shadow: 0px 2px 34px -4px rgba(99,99,99,1);
+}
+
+.card:hover {
+  cursor: pointer;
+  transform: scale(1.1, 1.1);
+}
+
+.headshot {
+  width: 250px;
+  float: left;
+  transform: translate(-45px, -32px);
+}
+
+.info {
+  display: inline-block;
+  position: relative;
+  left: -32px;
+  margin-top: 30px;
+}
+
+.name {
+  font-family: 'Abril Fatface', cursive;
+  font-size: 28px;
+  line-height: 1;
+}
+
+.title {
+  font-size: 18px;
+  margin-top: 5px;
+}
