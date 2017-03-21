@@ -5,7 +5,7 @@ const users = {};
 
 const characters = {
   0: {
-    name: 'Haskell',
+    name: 'Haskell B. Curry',
     title: 'Scientist',
     graduatedOn: 'January 4th, 2017',
     imagepath: '/media/char1.png',

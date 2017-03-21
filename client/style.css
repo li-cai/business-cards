@@ -47,14 +47,14 @@ body {
 
 .info {
   display: inline-block;
-  position: relative;
-  left: -32px;
   margin-top: 30px;
 }
 
 .name {
-  font-family: 'Abril Fatface', cursive;
+  font-family: 'europa', sans-serif;
+  font-style: normal;
   font-size: 28px;
+  font-weight: 700;
   line-height: 1;
 }
 

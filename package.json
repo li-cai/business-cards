@@ -1,11 +1,14 @@
 {
-  "name": "business-cards",
+  "name": "folio",
   "version": "1.0.0",
   "description": "",
   "main": "src/server.js",
   "scripts": {
-    "start": "node ./src/server.js",
-    "pretest": "eslint ./src --fix",
+    "start": "node ./app.js",
+    "build": "babel ./client/js --out-file ./client/build/bundle.js",
+    "watch": "babel --watch ./client --out-file ./client/build/bundle.js",
+    "nodemon": "nodemon -e js,html,css ./app.js",
+    "pretest": "eslint ./server app.js --fix",
     "test": "echo \"Tests complete\""
   },
   "repository": {
@@ -19,8 +22,11 @@
   },
   "homepage": "https://github.com/li-cai/business-cards#readme",
   "devDependencies": {
+    "babel-cli": "^6.24.0",
+    "babel-preset-env": "^1.2.2",
     "eslint": "^3.15.0",
     "eslint-config-airbnb": "^14.1.0",
-    "eslint-plugin-import": "^2.2.0"
+    "eslint-plugin-import": "^2.2.0",
+    "nodemon": "^1.11.0"
   }
 }

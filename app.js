@@ -2,15 +2,15 @@ const http = require('http');
 const url = require('url');
 // const query = require('querystring');
 
-const fileHandler = require('./fileResponses.js');
-const responseHandler = require('./responses.js');
+const fileHandler = require('./server/fileResponses.js');
+const responseHandler = require('./server/responses.js');
 
 const port = process.env.PORT || process.env.NODE_PORT || 3000;
 
 const GET_URL_STRUCT = {
   '/': fileHandler.getIndex,
   '/style.css': fileHandler.getCSS,
-  '/scripts.js': fileHandler.getJS,
+  '/bundle.js': fileHandler.getJS,
   '/media/char1.png': fileHandler.getChar1Image,
   '/getCharacters': responseHandler.getCharacters,
   '/notReal': responseHandler.notFound,

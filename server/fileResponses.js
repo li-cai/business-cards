@@ -2,7 +2,7 @@ const fs = require('fs');
 
 const index = fs.readFileSync(`${__dirname}/../client/client.html`);
 const styleCSS = fs.readFileSync(`${__dirname}/../client/style.css`);
-const scriptsJS = fs.readFileSync(`${__dirname}/../client/scripts.js`);
+const scriptsJS = fs.readFileSync(`${__dirname}/../client/build/bundle.js`);
 
 const char1Img = fs.readFileSync(`${__dirname}/../client/media/char1.png`);
 
