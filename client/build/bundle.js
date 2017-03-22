@@ -15,6 +15,10 @@ var onReceivedFolios = function onReceivedFolios(xhr) {
   var response = JSON.parse(xhr.response);
   console.log(response);
 
+  // clear cards
+  var container = document.querySelector('.container');
+  container.innerHTML = '';
+
   Object.keys(response).forEach(function (key) {
     createCard(response[key]);
   });
@@ -22,8 +26,6 @@ var onReceivedFolios = function onReceivedFolios(xhr) {
 
 var getFolios = function getFolios() {
   var xhr = new XMLHttpRequest();
-
-  console.log('get charac');
 
   xhr.open('GET', '/getFolios');
   xhr.setRequestHeader("Accept", 'application/json');
@@ -33,6 +35,51 @@ var getFolios = function getFolios() {
   };
 
   xhr.send();
+};
+
+var handlePostResponse = function handlePostResponse(xhr) {
+  console.log(xhr.status);
+
+  switch (xhr.status) {
+    case 201:
+      getFolios();
+      break;
+
+    default:
+      break;
+  };
+};
+
+var postFolio = function postFolio(e, addForm) {
+  var name = document.querySelector('#nameField').value;
+  var major = document.querySelector('#majorSelect').value;
+  var email = document.querySelector('#emailField').value;
+  var portfolio = document.querySelector('#portfolioField').value;
+
+  var xhr = new XMLHttpRequest();
+
+  xhr.open('POST', '/addFolio');
+  xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+  xhr.setRequestHeader("Accept", 'application/json');
+
+  var formData = 'name=' + name + '&title=' + major + '&email=' + email + '&portfolio=' + portfolio;
+
+  var checkboxes = document.querySelectorAll('.checkboxes input');
+  checkboxes.forEach(function (checkbox) {
+    if (checkbox.checked) {
+      formData += '&' + checkbox.name + '=on';
+    }
+  });
+
+  xhr.onload = function () {
+    return handlePostResponse(xhr);
+  };
+
+  xhr.send(formData);
+
+  addForm.reset();
+
+  e.preventDefault();
 };
 
 function createElement(tagName) {
@@ -70,22 +117,35 @@ var createCard = function createCard(char) {
   container.appendChild(card);
 };
 
+var showForm = function showForm() {
+  var formContainer = document.querySelector('#addFolio');
+  formContainer.className += ' is-shown';
+};
+
+var hideForm = function hideForm() {
+  var formContainer = document.querySelector('#addFolio');
+  formContainer.className = 'addFolio';
+};
+
 var init = function init() {
   getFolios();
 
-  // const userForm = document.querySelector('#userForm');
-  // const nameForm = document.querySelector('#nameForm');
-
   var addButton = document.querySelector('#addButton');
   var formContainer = document.querySelector('#addFolio');
+  var addForm = document.querySelector('#addFolioForm');
+
+  addForm.addEventListener('submit', function (e) {
+    hideForm();
+    postFolio(e, addForm);
+  });
 
   addButton.addEventListener('click', function () {
-    formContainer.className += ' is-shown';
+    showForm();
   });
 
   document.body.addEventListener('click', function (e) {
     if (!formContainer.contains(e.target) && e.target.id !== 'addButton') {
-      formContainer.className = 'addFolio';
+      hideForm();
     }
   });
 

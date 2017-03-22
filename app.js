@@ -19,10 +19,9 @@ const GET_URL_STRUCT = {
   '/notReal': responseHandler.notFound,
 };
 
-// const HEAD_URL_STRUCT = {
-//   '/getUsers': responseHandler.getUsersHead,
-//   '/notReal': responseHandler.notFoundHead,
-// };
+const HEAD_URL_STRUCT = {
+  '/getFolios': responseHandler.getFoliosHead,
+};
 
 const onRequest = (request, response) => {
   console.log(request.url);
@@ -39,11 +38,11 @@ const onRequest = (request, response) => {
       break;
 
     case 'HEAD':
-      // if (!HEAD_URL_STRUCT[pathname]) {
-      //   responseHandler.notFound(request, response);
-      // } else {
-      //   HEAD_URL_STRUCT[pathname](request, response);
-      // }
+      if (!HEAD_URL_STRUCT[pathname]) {
+        responseHandler.notFound(request, response);
+      } else {
+        HEAD_URL_STRUCT[pathname](request, response);
+      }
       break;
 
     case 'POST':
@@ -65,9 +64,7 @@ const onRequest = (request, response) => {
           const bodyString = Buffer.concat(body).toString();
           const bodyParams = query.parse(bodyString);
 
-          console.log(bodyParams);
-
-          // responseHandler.addFolio(request, res, bodyParams);
+          responseHandler.addFolio(request, res, bodyParams);
         });
       } else {
         responseHandler.notFound(request, response);

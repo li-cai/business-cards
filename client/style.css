@@ -109,6 +109,7 @@ a {
   line-height: 1;
   border-bottom: 3px solid black;
   padding-bottom: 2px;
+  text-transform: capitalize;
 }
 
 .title {

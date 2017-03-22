@@ -1,8 +1,5 @@
 const crypto = require('crypto');
 
-// TODO: Remove
-// const users = {};
-
 const folios = {
   'Haskell B. Curry': {
     name: 'Haskell B. Curry',
@@ -60,7 +57,14 @@ const addFolio = (request, response, body) => {
     message: 'Name, title, interests, email and portfolio link are all required',
   };
 
-  const { name, title, interests, email, portfolio } = body;
+  const { name, title, email, portfolio } = body;
+
+  const interests = [];
+  Object.keys(body).forEach((key) => {
+    if (body[key] === 'on') {
+      interests.push(key);
+    }
+  });
 
   if (!name || !title || !interests || !email || !portfolio) {
     responseJSON.id = 'missingParams';
@@ -96,11 +100,16 @@ const addFolio = (request, response, body) => {
 // };
 
 const getFolios = (request, response) => {
-  console.log('get char api hit');
-  sendResponse(request, response, 200, folios);
+  updateDigest();
+
+  if (request.headers['if-none-match'] === digest) {
+    return sendResponseHead(request, response, 304);
+  }
+
+  return sendResponse(request, response, 200, folios);
 };
 
-const getUsersHead = (request, response) => {
+const getFoliosHead = (request, response) => {
   updateDigest();
 
   if (request.headers['if-none-match'] === digest) {
@@ -119,14 +128,9 @@ const notFound = (request, response) => {
   sendResponse(request, response, 404, resjson);
 };
 
-const notFoundHead = (request, response) => {
-  sendResponseHead(request, response, 404);
-};
-
 module.exports = {
   addFolio,
   getFolios,
-  getUsersHead,
+  getFoliosHead,
   notFound,
-  notFoundHead,
 };

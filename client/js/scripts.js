@@ -13,6 +13,10 @@ const onReceivedFolios = (xhr) => {
   var response = JSON.parse(xhr.response);
   console.log(response);
 
+  // clear cards
+  const container = document.querySelector('.container');
+  container.innerHTML = '';
+
   Object.keys(response).forEach(key => {
     createCard(response[key]);
   });
@@ -21,14 +25,55 @@ const onReceivedFolios = (xhr) => {
 const getFolios = () => {
   const xhr = new XMLHttpRequest();
 
-  console.log('get charac');
-
   xhr.open('GET', '/getFolios');
   xhr.setRequestHeader ("Accept", 'application/json');
 
   xhr.onload = () => onReceivedFolios(xhr);
 
   xhr.send();
+};
+
+const handlePostResponse = (xhr) => {
+  console.log(xhr.status);
+
+  switch (xhr.status) {
+    case 201:
+      getFolios();
+      break;
+
+    default:
+      break;
+  };
+};
+
+const postFolio = (e, addForm) => {
+  const name = document.querySelector('#nameField').value;
+  const major = document.querySelector('#majorSelect').value;
+  const email = document.querySelector('#emailField').value;
+  const portfolio = document.querySelector('#portfolioField').value;
+
+  const xhr = new XMLHttpRequest();
+
+  xhr.open('POST', '/addFolio');
+  xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+  xhr.setRequestHeader ("Accept", 'application/json');
+
+  let formData = `name=${name}&title=${major}&email=${email}&portfolio=${portfolio}`;
+
+  var checkboxes = document.querySelectorAll('.checkboxes input');
+  checkboxes.forEach((checkbox) => {
+    if (checkbox.checked) {
+      formData += `&${checkbox.name}=on`;
+    }
+  });
+
+  xhr.onload = () => handlePostResponse(xhr);
+
+  xhr.send(formData);
+
+  addForm.reset();
+
+  e.preventDefault();
 };
 
 function createElement(tagName, attrs = {}, children = []) {
@@ -73,22 +118,35 @@ const createCard = (char) => {
   container.appendChild(card);
 };
 
+const showForm = () => {
+  const formContainer = document.querySelector('#addFolio');
+  formContainer.className += ' is-shown';
+}
+
+const hideForm = () => {
+  const formContainer = document.querySelector('#addFolio');
+  formContainer.className = 'addFolio';
+}
+
 const init = () => {
   getFolios();
 
-  // const userForm = document.querySelector('#userForm');
-  // const nameForm = document.querySelector('#nameForm');
-
   const addButton = document.querySelector('#addButton');
   const formContainer = document.querySelector('#addFolio');
+  const addForm = document.querySelector('#addFolioForm');
+
+  addForm.addEventListener('submit', (e) => {
+    hideForm();
+    postFolio(e, addForm);
+  });
 
   addButton.addEventListener('click', () => {
-    formContainer.className += ' is-shown';
+    showForm();
   });
 
   document.body.addEventListener('click', (e) => {
     if (!formContainer.contains(e.target) && e.target.id !== 'addButton') {
-      formContainer.className = 'addFolio';
+      hideForm();
     }
   });
 
