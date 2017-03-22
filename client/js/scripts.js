@@ -20,30 +20,39 @@ const getCharacters = () => {
   xhr.send();
 };
 
+function createElement(tagName, attrs = {}, children = []) {
+  const parent = document.createElement(tagName);
+
+  Object.keys(attrs).forEach(function(key) {
+    const value = attrs[key];
+    parent[key] = value;
+  });
+
+  children.forEach(function(child) {
+    parent.appendChild(child);
+  });
+
+  return parent;
+}
+
 const createCard = (char) => {
-  var card = document.createElement('div');
-  card.className = 'card';
+  const container = document.querySelector('.container');
 
-  // var img = document.createElement('img');
-  // img.className = 'headshot';
-  // img.src = char.imagepath;
-  // card.appendChild(img);
+  const interestText = `Interests: ${char.interests.join(', ')}`;
 
-  var info = document.createElement('div');
-  info.className = 'info';
-  card.appendChild(info);
+  const create = createElement;
+  const card =
+    create('div', { className: 'card' }, [
+      create('div', { className: 'graphic' }),
+      create('div', { className: 'info' }, [
+        create('div', { className: 'name', textContent: char.name }),
+        create('div', { className: 'title', textContent: char.title }),
+        create('div', { className: 'interests', textContent: interestText }),
+        create('div', { className: 'contact email', textContent: char.email }),
+        create('a', { className: 'contact portfolio', textContent: char.portfolio, href: char.portfolio }),
+      ])
+    ]);
 
-  var name = document.createElement('div');
-  name.className = 'name';
-  name.textContent = char.name;
-  info.appendChild(name);
-
-  var title = document.createElement('div');
-  title.className = 'title';
-  title.textContent = char.title;
-  info.appendChild(title);
-
-  var container = document.querySelector('.container');
   container.appendChild(card);
 };
 

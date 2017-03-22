@@ -6,21 +6,24 @@ const users = {};
 const characters = {
   0: {
     name: 'Haskell B. Curry',
-    title: 'Scientist',
-    graduatedOn: 'January 4th, 2017',
-    imagepath: '/media/char1.png',
+    title: 'Game Design and Development (BS)',
+    email: 'haskell@cs.rit.edu',
+    portfolio: 'https://en.wikipedia.org/wiki/Haskell_Curry',
+    interests: ['Web Dev', 'Android', 'Game Dev', 'Animation']
   },
   1: {
-    name: 'Leonardo',
-    title: 'Painter',
-    graduatedOn: 'March 10th, 2017',
-    imagepath: '/media/char1.png',
+    name: 'Cailin Li',
+    title: 'New Media Interactive Development (BS)',
+    email: 'cxl2467@rit.edu',
+    portfolio: 'http://cailinli.me',
+    interests: ['Web Dev', 'Mobile Dev', 'iOS', 'Front-End Dev', 'UI/UX Design']
   },
   2: {
-    name: 'Meilin',
-    title: 'Top Chef',
-    graduatedOn: 'June 19th, 2017',
-    imagepath: '/media/char1.png',
+    name: 'Junie B. Jones',
+    title: 'New Media Design (MFA)',
+    email: 'test123@gmail.com',
+    portfolio: 'http://creativity.cias.rit.edu/',
+    interests: ['Visual Design', 'Mobile Design', 'Project Management']
   },
 };
 

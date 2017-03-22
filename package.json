@@ -6,7 +6,7 @@
   "scripts": {
     "start": "node ./app.js",
     "build": "babel ./client/js --out-file ./client/build/bundle.js",
-    "watch": "babel --watch ./client --out-file ./client/build/bundle.js",
+    "watch": "babel --watch ./client/js --out-file ./client/build/bundle.js",
     "nodemon": "nodemon -e js,html,css ./app.js",
     "pretest": "eslint ./server app.js --fix",
     "test": "echo \"Tests complete\""

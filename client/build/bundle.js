@@ -1,114 +1,63 @@
-const onReceivedCharacters = xhr => {
+'use strict';
+
+var onReceivedCharacters = function onReceivedCharacters(xhr) {
   var response = JSON.parse(xhr.response);
   console.log(response);
 
-  Object.keys(response).forEach(key => {
+  Object.keys(response).forEach(function (key) {
     createCard(response[key]);
   });
 };
 
-const getCharacters = () => {
-  const xhr = new XMLHttpRequest();
+var getCharacters = function getCharacters() {
+  var xhr = new XMLHttpRequest();
 
   console.log('get charac');
 
   xhr.open('GET', '/getCharacters');
   xhr.setRequestHeader("Accept", 'application/json');
 
-  xhr.onload = () => onReceivedCharacters(xhr);
+  xhr.onload = function () {
+    return onReceivedCharacters(xhr);
+  };
 
   xhr.send();
 };
 
-const createCard = char => {
-  var card = document.createElement('div');
-  card.className = 'card';
+function createElement(tagName) {
+  var attrs = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
+  var children = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : [];
 
-  // var img = document.createElement('img');
-  // img.className = 'headshot';
-  // img.src = char.imagepath;
-  // card.appendChild(img);
+  var parent = document.createElement(tagName);
 
-  var info = document.createElement('div');
-  info.className = 'info';
-  card.appendChild(info);
-
-  var name = document.createElement('div');
-  name.className = 'name';
-  name.textContent = char.name;
-  info.appendChild(name);
-
-  var title = document.createElement('div');
-  title.className = 'title';
-  title.textContent = char.title;
-  info.appendChild(title);
-
-  var container = document.querySelector('.container');
-  container.appendChild(card);
-};
-
-const init = () => {
-  getCharacters();
-
-  const userForm = document.querySelector('#userForm');
-  const nameForm = document.querySelector('#nameForm');
-};
-
-window.onload = init;
-const onReceivedCharacters = xhr => {
-  var response = JSON.parse(xhr.response);
-  console.log(response);
-
-  Object.keys(response).forEach(key => {
-    createCard(response[key]);
+  Object.keys(attrs).forEach(function (key) {
+    var value = attrs[key];
+    parent[key] = value;
   });
-};
 
-const getCharacters = () => {
-  const xhr = new XMLHttpRequest();
+  children.forEach(function (child) {
+    parent.appendChild(child);
+  });
 
-  console.log('get charac');
+  return parent;
+}
 
-  xhr.open('GET', '/getCharacters');
-  xhr.setRequestHeader("Accept", 'application/json');
-
-  xhr.onload = () => onReceivedCharacters(xhr);
-
-  xhr.send();
-};
-
-const createCard = char => {
-  var card = document.createElement('div');
-  card.className = 'card';
-
-  // var img = document.createElement('img');
-  // img.className = 'headshot';
-  // img.src = char.imagepath;
-  // card.appendChild(img);
-
-  var info = document.createElement('div');
-  info.className = 'info';
-  card.appendChild(info);
-
-  var name = document.createElement('div');
-  name.className = 'name';
-  name.textContent = char.name;
-  info.appendChild(name);
-
-  var title = document.createElement('div');
-  title.className = 'title';
-  title.textContent = char.title;
-  info.appendChild(title);
-
+var createCard = function createCard(char) {
   var container = document.querySelector('.container');
+
+  var interestText = 'Interests: ' + char.interests.join(', ');
+
+  var create = createElement;
+  var card = create('div', { className: 'card' }, [create('div', { className: 'graphic' }), create('div', { className: 'info' }, [create('div', { className: 'name', textContent: char.name }), create('div', { className: 'title', textContent: char.title }), create('div', { className: 'interests', textContent: interestText }), create('div', { className: 'contact email', textContent: char.email }), create('a', { className: 'contact portfolio', textContent: char.portfolio, href: char.portfolio })])]);
+
   container.appendChild(card);
 };
 
-const init = () => {
+var init = function init() {
   getCharacters();
 
-  const userForm = document.querySelector('#userForm');
-  const nameForm = document.querySelector('#nameForm');
+  var userForm = document.querySelector('#userForm');
+  var nameForm = document.querySelector('#nameForm');
 };
 
 window.onload = init;
