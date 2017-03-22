@@ -1,6 +1,6 @@
 const http = require('http');
 const url = require('url');
-// const query = require('querystring');
+const query = require('querystring');
 
 const fileHandler = require('./server/fileResponses.js');
 const responseHandler = require('./server/responses.js');
@@ -11,8 +11,11 @@ const GET_URL_STRUCT = {
   '/': fileHandler.getIndex,
   '/style.css': fileHandler.getCSS,
   '/bundle.js': fileHandler.getJS,
-  '/media/char1.png': fileHandler.getChar1Image,
-  '/getCharacters': responseHandler.getCharacters,
+  '/media/email-ico.png': fileHandler.getEmailIco,
+  '/media/link-ico.png': fileHandler.getLinkIco,
+  '/media/logo.png': fileHandler.getLogo,
+  '/media/add-ico.png': fileHandler.getAddIco,
+  '/getFolios': responseHandler.getFolios,
   '/notReal': responseHandler.notFound,
 };
 
@@ -44,28 +47,31 @@ const onRequest = (request, response) => {
       break;
 
     case 'POST':
-      // if (pathname === '/addUser') {
-      //   const res = response;
-      //   const body = [];
-      //
-      //   request.on('error', (err) => {
-      //     console.dir(err);
-      //     res.statusCode = 400;
-      //     res.end();
-      //   });
-      //
-      //   request.on('data', (chunk) => {
-      //     body.push(chunk);
-      //   });
-      //
-      //   request.on('end', () => {
-      //     const bodyString = Buffer.concat(body).toString();
-      //
-      //     const bodyParams = query.parse(bodyString);
-      //
-      //     responseHandler.addUser(request, res, bodyParams);
-      //   });
-      // }
+      if (pathname === '/addFolio') {
+        const res = response;
+        const body = [];
+
+        request.on('error', (err) => {
+          console.dir(err);
+          res.statusCode = 400;
+          res.end();
+        });
+
+        request.on('data', (chunk) => {
+          body.push(chunk);
+        });
+
+        request.on('end', () => {
+          const bodyString = Buffer.concat(body).toString();
+          const bodyParams = query.parse(bodyString);
+
+          console.log(bodyParams);
+
+          // responseHandler.addFolio(request, res, bodyParams);
+        });
+      } else {
+        responseHandler.notFound(request, response);
+      }
       break;
 
     default:

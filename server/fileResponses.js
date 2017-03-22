@@ -4,7 +4,10 @@ const index = fs.readFileSync(`${__dirname}/../client/client.html`);
 const styleCSS = fs.readFileSync(`${__dirname}/../client/style.css`);
 const scriptsJS = fs.readFileSync(`${__dirname}/../client/build/bundle.js`);
 
-const char1Img = fs.readFileSync(`${__dirname}/../client/media/char1.png`);
+const emailIco = fs.readFileSync(`${__dirname}/../client/media/email-ico.png`);
+const linkIco = fs.readFileSync(`${__dirname}/../client/media/link-ico.png`);
+const addIco = fs.readFileSync(`${__dirname}/../client/media/add-ico.png`);
+const logo = fs.readFileSync(`${__dirname}/../client/media/logo.png`);
 
 const getIndex = (request, response) => {
   response.writeHead(200, { 'Content-Type': 'text/html' });
@@ -24,9 +27,27 @@ const getJS = (request, response) => {
   response.end();
 };
 
-const getChar1Image = (request, response) => {
+const getLinkIco = (request, response) => {
   response.writeHead(200, { 'Content-Type': 'image/png' });
-  response.write(char1Img);
+  response.write(linkIco);
+  response.end();
+};
+
+const getEmailIco = (request, response) => {
+  response.writeHead(200, { 'Content-Type': 'image/png' });
+  response.write(emailIco);
+  response.end();
+};
+
+const getLogo = (request, response) => {
+  response.writeHead(200, { 'Content-Type': 'image/png' });
+  response.write(logo);
+  response.end();
+};
+
+const getAddIco = (request, response) => {
+  response.writeHead(200, { 'Content-Type': 'image/png' });
+  response.write(addIco);
   response.end();
 };
 
@@ -34,5 +55,8 @@ module.exports = {
   getIndex,
   getCSS,
   getJS,
-  getChar1Image,
+  getEmailIco,
+  getLinkIco,
+  getAddIco,
+  getLogo,
 };

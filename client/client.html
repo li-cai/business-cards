@@ -6,11 +6,67 @@
   <script>try{Typekit.load({ async: true });}catch(e){}</script>
 
   <link rel="stylesheet" type="text/css" href="/style.css">
-  <link href="https://fonts.googleapis.com/css?family=Chivo:400,400i" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Chivo:400,400i,700" rel="stylesheet">
 
   <script src="bundle.js"></script>
 </head>
 <body>
+  <div class="header">
+    <img class="logo" src="media/logo.png" />
+    <img id="addButton" class="addButton" src="media/add-ico.png" />
+    <div id="addFolio" class="addFolio">
+      <form id="addFolioForm" action="/addFolio" method="post">
+        <div class="addFolioForm-upper">
+          <div>
+            <label for="name">Name</label>
+            <input class="fieldBox" id="nameField" type="text" name="name" />
+          </div>
+          <div>
+            <label for="major">Major</label>
+            <select class="fieldBox" id="majorSelect" name="title"></select>
+          </div>
+          <div>
+            <div class="label">Interests</div>
+            <div class="checkboxes">
+              <input type="checkbox" id="cbox1" name="Web Dev">
+              <label for="cbox1">Web Dev</label>
+              <input type="checkbox" id="cbox2" name="Mobile Dev">
+              <label for="cbox2">Mobile Dev</label>
+              <input type="checkbox" id="cbox3" name="iOS">
+              <label for="cbox3">iOS</label>
+              <input type="checkbox" id="cbox4" name="Android">
+              <label for="cbox4">Android</label>
+              <input type="checkbox" id="cbox5" name="Front-End Dev">
+              <label for="cbox5">Front-End Dev</label>
+              <input type="checkbox" id="cbox6" name="Server Dev">
+              <label for="cbox6">Server Dev</label>
+              <input type="checkbox" id="cbox7" name="Game Dev">
+              <label for="cbox7">Game Dev</label>
+              <input type="checkbox" id="cbox8" name="Project Management">
+              <label for="cbox8">Project Management</label>
+              <input type="checkbox" id="cbox9" name="UI / UX Design">
+              <label for="cbox9">UI / UX Design</label>
+              <input type="checkbox" id="cbox10" name="Visual Design">
+              <label for="cbox10">Visual Design</label>
+              <input type="checkbox" id="cbox11" name="Mobile Design">
+              <label for="cbox11">Mobile Design</label>
+              <input type="checkbox" id="cbox12" name="Animation">
+              <label for="cbox12">Animation</label>
+            </div>
+          </div>
+          <div>
+            <label for="email">Email</label>
+            <input class="fieldBox" id="emailField" type="email" name="email" />
+          </div>
+          <div>
+            <label for="portfolio">Portfolio</label>
+            <input class="fieldBox" id="portfolioField" type="text" name="portfolio" />
+          </div>
+        </div>
+        <input id="submitButton" type="submit" value="Add Card" />
+      </form>
+    </div>
+  </div>
   <div class="container"></div>
 </body>
 </html>

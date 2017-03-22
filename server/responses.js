@@ -1,37 +1,37 @@
 const crypto = require('crypto');
 
 // TODO: Remove
-const users = {};
+// const users = {};
 
-const characters = {
-  0: {
+const folios = {
+  'Haskell B. Curry': {
     name: 'Haskell B. Curry',
     title: 'Game Design and Development (BS)',
     email: 'haskell@cs.rit.edu',
     portfolio: 'https://en.wikipedia.org/wiki/Haskell_Curry',
-    interests: ['Web Dev', 'Android', 'Game Dev', 'Animation']
+    interests: ['Web Dev', 'Android', 'Game Dev', 'Animation'],
   },
-  1: {
+  'Cailin Li': {
     name: 'Cailin Li',
     title: 'New Media Interactive Development (BS)',
     email: 'cxl2467@rit.edu',
     portfolio: 'http://cailinli.me',
-    interests: ['Web Dev', 'Mobile Dev', 'iOS', 'Front-End Dev', 'UI/UX Design']
+    interests: ['Web Dev', 'Mobile Dev', 'iOS', 'Front-End Dev', 'UI/UX Design'],
   },
-  2: {
+  'Junie B. Jones': {
     name: 'Junie B. Jones',
     title: 'New Media Design (MFA)',
     email: 'test123@gmail.com',
     portfolio: 'http://creativity.cias.rit.edu/',
-    interests: ['Visual Design', 'Mobile Design', 'Project Management']
+    interests: ['Visual Design', 'Mobile Design', 'Project Management'],
   },
 };
 
-let etag = crypto.createHash('sha1').update(JSON.stringify(users));
+let etag = crypto.createHash('sha1').update(JSON.stringify(folios));
 let digest = etag.digest('hex');
 
 const updateDigest = () => {
-  etag = crypto.createHash('sha1').update(JSON.stringify(users));
+  etag = crypto.createHash('sha1').update(JSON.stringify(folios));
   digest = etag.digest('hex');
 };
 
@@ -55,26 +55,27 @@ const sendResponseHead = (request, response, status) => {
   response.end();
 };
 
-const addUser = (request, response, body) => {
+const addFolio = (request, response, body) => {
   const responseJSON = {
-    message: 'Name and age are both required.',
+    message: 'Name, title, interests, email and portfolio link are all required',
   };
 
-  if (!body.name || !body.age) {
+  const { name, title, interests, email, portfolio } = body;
+
+  if (!name || !title || !interests || !email || !portfolio) {
     responseJSON.id = 'missingParams';
     return sendResponse(request, response, 400, responseJSON);
   }
 
   let responseCode = 201;
 
-  if (users[body.name]) {
+  if (folios[name]) {
     responseCode = 204;
   } else {
-    users[body.name] = {};
+    folios[name] = {};
   }
 
-  users[body.name].name = body.name;
-  users[body.name].age = body.age;
+  folios[name] = { name, title, interests, email, portfolio };
 
   if (responseCode === 201) {
     responseJSON.message = 'Created Successfully';
@@ -84,19 +85,19 @@ const addUser = (request, response, body) => {
   return sendResponseHead(request, response, responseCode);
 };
 
-const getUsers = (request, response) => {
-  updateDigest();
+// const getUsers = (request, response) => {
+//   updateDigest();
+//
+//   if (request.headers['if-none-match'] === digest) {
+//     return sendResponseHead(request, response, 304);
+//   }
+//
+//   return sendResponse(request, response, 200, { users });
+// };
 
-  if (request.headers['if-none-match'] === digest) {
-    return sendResponseHead(request, response, 304);
-  }
-
-  return sendResponse(request, response, 200, { users });
-};
-
-const getCharacters = (request, response) => {
+const getFolios = (request, response) => {
   console.log('get char api hit');
-  sendResponse(request, response, 200, characters);
+  sendResponse(request, response, 200, folios);
 };
 
 const getUsersHead = (request, response) => {
@@ -123,9 +124,8 @@ const notFoundHead = (request, response) => {
 };
 
 module.exports = {
-  addUser,
-  getUsers,
-  getCharacters,
+  addFolio,
+  getFolios,
   getUsersHead,
   notFound,
   notFoundHead,
