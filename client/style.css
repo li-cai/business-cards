@@ -25,6 +25,10 @@ a {
   height: 110px;
 }
 
+.logo:hover {
+  cursor: pointer;
+}
+
 .addButton {
   display: inline-block;
   position: absolute;
@@ -154,7 +158,7 @@ a {
 }
 
 .addFolioForm-upper {
-  padding: 35px 30px;
+  padding: 15px 35px 30px;
 }
 
 #addFolioForm {
@@ -208,4 +212,20 @@ a {
 #submitButton:hover {
   cursor: pointer;
   opacity: 0.9;
+}
+
+.majorFilter {
+  display: inline-block;
+  width: 200px;
+  position: absolute;
+  top: 120px;
+  right: 130px;
+}
+
+.errorMessage {
+  font-size: 14px;
+  font-weight: 700;
+  width: 300px;
+  color: red;
+  margin-bottom: 20px;
 }

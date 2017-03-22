@@ -11,7 +11,7 @@ COLORS_MAP[NEW_MEDIA_DESIGN] = '#BE90D4';
 
 const onReceivedFolios = (xhr) => {
   var response = JSON.parse(xhr.response);
-  console.log(response);
+  console.log(xhr.status);
 
   // clear cards
   const container = document.querySelector('.container');
@@ -22,10 +22,15 @@ const onReceivedFolios = (xhr) => {
   });
 };
 
-const getFolios = () => {
+const getFolios = (major) => {
   const xhr = new XMLHttpRequest();
 
-  xhr.open('GET', '/getFolios');
+  const url = '/getFolios';
+  const endpoint = major ? `${url}?major=${major}` : url;
+
+  console.log(endpoint);
+
+  xhr.open('GET', endpoint);
   xhr.setRequestHeader ("Accept", 'application/json');
 
   xhr.onload = () => onReceivedFolios(xhr);
@@ -33,12 +38,20 @@ const getFolios = () => {
   xhr.send();
 };
 
-const handlePostResponse = (xhr) => {
+const handlePostResponse = (xhr, addForm) => {
   console.log(xhr.status);
 
   switch (xhr.status) {
     case 201:
+      hideForm();
+      addForm.reset();
       getFolios();
+      break;
+
+    case 400:
+      const message = JSON.parse(xhr.response).message;
+      const errorDiv = document.querySelector('.errorMessage');
+      errorDiv.textContent = `Error: ${message}`;
       break;
 
     default:
@@ -67,11 +80,9 @@ const postFolio = (e, addForm) => {
     }
   });
 
-  xhr.onload = () => handlePostResponse(xhr);
+  xhr.onload = () => handlePostResponse(xhr, addForm);
 
   xhr.send(formData);
-
-  addForm.reset();
 
   e.preventDefault();
 };
@@ -131,12 +142,16 @@ const hideForm = () => {
 const init = () => {
   getFolios();
 
+  const logo = document.querySelector('.logo');
   const addButton = document.querySelector('#addButton');
   const formContainer = document.querySelector('#addFolio');
   const addForm = document.querySelector('#addFolioForm');
 
+  logo.addEventListener('click', () => {
+    getFolios();
+  });
+
   addForm.addEventListener('submit', (e) => {
-    hideForm();
     postFolio(e, addForm);
   });
 
@@ -150,10 +165,18 @@ const init = () => {
     }
   });
 
+  // populate selectors
   const majorSelect = document.querySelector('#majorSelect');
+  const filterSelect = document.querySelector('.majorFilter');
+
   Object.keys(COLORS_MAP).forEach((key) => {
     var majorOption = createElement('option', { value: key, textContent: key });
     majorSelect.appendChild(majorOption);
+    filterSelect.appendChild(majorOption.cloneNode(true));
+  });
+
+  filterSelect.addEventListener('change', (e) => {
+    getFolios(e.target.value);
   });
 };
 

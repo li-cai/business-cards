@@ -14,9 +14,13 @@
   <div class="header">
     <img class="logo" src="media/logo.png" />
     <img id="addButton" class="addButton" src="media/add-ico.png" />
+    <select class="majorFilter">
+      <option value="All Majors">All Majors</option>
+    </select>
     <div id="addFolio" class="addFolio">
       <form id="addFolioForm" action="/addFolio" method="post">
         <div class="addFolioForm-upper">
+          <section class="errorMessage"></section>
           <div>
             <label for="name">Name</label>
             <input class="fieldBox" id="nameField" type="text" name="name" />

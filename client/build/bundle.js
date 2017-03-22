@@ -13,7 +13,7 @@ COLORS_MAP[NEW_MEDIA_DESIGN] = '#BE90D4';
 
 var onReceivedFolios = function onReceivedFolios(xhr) {
   var response = JSON.parse(xhr.response);
-  console.log(response);
+  console.log(xhr.status);
 
   // clear cards
   var container = document.querySelector('.container');
@@ -24,10 +24,15 @@ var onReceivedFolios = function onReceivedFolios(xhr) {
   });
 };
 
-var getFolios = function getFolios() {
+var getFolios = function getFolios(major) {
   var xhr = new XMLHttpRequest();
 
-  xhr.open('GET', '/getFolios');
+  var url = '/getFolios';
+  var endpoint = major ? url + '?major=' + major : url;
+
+  console.log(endpoint);
+
+  xhr.open('GET', endpoint);
   xhr.setRequestHeader("Accept", 'application/json');
 
   xhr.onload = function () {
@@ -37,12 +42,20 @@ var getFolios = function getFolios() {
   xhr.send();
 };
 
-var handlePostResponse = function handlePostResponse(xhr) {
+var handlePostResponse = function handlePostResponse(xhr, addForm) {
   console.log(xhr.status);
 
   switch (xhr.status) {
     case 201:
+      hideForm();
+      addForm.reset();
       getFolios();
+      break;
+
+    case 400:
+      var message = JSON.parse(xhr.response).message;
+      var errorDiv = document.querySelector('.errorMessage');
+      errorDiv.textContent = 'Error: ' + message;
       break;
 
     default:
@@ -72,12 +85,10 @@ var postFolio = function postFolio(e, addForm) {
   });
 
   xhr.onload = function () {
-    return handlePostResponse(xhr);
+    return handlePostResponse(xhr, addForm);
   };
 
   xhr.send(formData);
-
-  addForm.reset();
 
   e.preventDefault();
 };
@@ -130,12 +141,16 @@ var hideForm = function hideForm() {
 var init = function init() {
   getFolios();
 
+  var logo = document.querySelector('.logo');
   var addButton = document.querySelector('#addButton');
   var formContainer = document.querySelector('#addFolio');
   var addForm = document.querySelector('#addFolioForm');
 
+  logo.addEventListener('click', function () {
+    getFolios();
+  });
+
   addForm.addEventListener('submit', function (e) {
-    hideForm();
     postFolio(e, addForm);
   });
 
@@ -149,10 +164,18 @@ var init = function init() {
     }
   });
 
+  // populate selectors
   var majorSelect = document.querySelector('#majorSelect');
+  var filterSelect = document.querySelector('.majorFilter');
+
   Object.keys(COLORS_MAP).forEach(function (key) {
     var majorOption = createElement('option', { value: key, textContent: key });
     majorSelect.appendChild(majorOption);
+    filterSelect.appendChild(majorOption.cloneNode(true));
+  });
+
+  filterSelect.addEventListener('change', function (e) {
+    getFolios(e.target.value);
   });
 };
 

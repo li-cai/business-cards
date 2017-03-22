@@ -27,13 +27,14 @@ const onRequest = (request, response) => {
   console.log(request.url);
 
   const pathname = url.parse(request.url, true).pathname;
+  const parsedUrlQuery = url.parse(request.url, true).query;
 
   switch (request.method) {
     case 'GET':
       if (!GET_URL_STRUCT[pathname]) {
         responseHandler.notFound(request, response);
       } else {
-        GET_URL_STRUCT[pathname](request, response);
+        GET_URL_STRUCT[pathname](request, response, parsedUrlQuery);
       }
       break;
 

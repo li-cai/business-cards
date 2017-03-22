@@ -89,20 +89,39 @@ const addFolio = (request, response, body) => {
   return sendResponseHead(request, response, responseCode);
 };
 
-// const getUsers = (request, response) => {
-//   updateDigest();
-//
-//   if (request.headers['if-none-match'] === digest) {
-//     return sendResponseHead(request, response, 304);
-//   }
-//
-//   return sendResponse(request, response, 200, { users });
-// };
+const filterFolios = (major) => {
+  const filtered = {};
 
-const getFolios = (request, response) => {
+  Object.keys(folios).forEach((key) => {
+    const folio = folios[key];
+
+    if (folio.title === major) {
+      filtered[key] = folio;
+    }
+  });
+
+  return filtered;
+};
+
+const filterByQuery = (request, response, query) => {
+  let results = folios;
+
+  if (query.major && query.major !== 'All Majors') {
+    results = filterFolios(query.major);
+  }
+
+  return sendResponse(request, response, 200, results);
+};
+
+const getFolios = (request, response, query) => {
   updateDigest();
 
+  if (query && Object.keys(query).length > 0) {
+    return filterByQuery(request, response, query);
+  }
+
   if (request.headers['if-none-match'] === digest) {
+    console.log('no change');
     return sendResponseHead(request, response, 304);
   }
 
